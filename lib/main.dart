@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import './pages/onboarding.dart';
+
+import './Pages/onboardingscreen.dart';
 import './Pages/home.dart';
-import './Pages/competition.dart';
-import './Pages/events.dart';
+import 'Pages/upcomingEvents.dart';
+import 'Pages/calander.dart';
 import './Pages/aluminiOfNmims.dart';
 import './Pages/ourTeam.dart';
 import './Pages/aboutUs.dart';
@@ -20,11 +20,22 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp( 
       title: 'Personal Expenses',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
+        primarySwatch: Colors.orange,
+        accentIconTheme: IconThemeData(color: Colors.orange),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.indigo,
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
+        accentColor: Colors.indigo,
         fontFamily: 'Quicksand',
       ),
       home: MyHomePage(),
@@ -41,10 +52,10 @@ class MyHomePage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => OnboardingScreen(),
+        '/': (context) => OnboardingPage(),
         '/home': (context) => HomePage(),
-        '/competition': (context) => competitionPage(),
-        '/events': (context) => eventsPage(),
+        '/competition': (context) => upcomingEvents(),
+        '/events': (context) => CalanderScreen(),
         '/alumini': (context) => aluminiOfNmimsPage(),
         '/ourTeam': (context) => ourTeamPage(),
         '/aboutUs': (context) => aboutUsPage(),

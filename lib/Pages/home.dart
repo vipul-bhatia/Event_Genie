@@ -1,8 +1,10 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import '../Pages/competition.dart';
-import '../Pages/events.dart';
+import 'upcomingEvents.dart';
+import 'calander.dart';
+import 'profile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -40,8 +42,9 @@ void contactsScreen(BuildContext context) {
   }
 
     final List<Map<String ,dynamic>> _pages = [
-    {'Pages': competitionPage(), 'title': 'Competition'},
-    {'Pages': eventsPage(), 'title' : 'Events'},
+    {'Pages': upcomingEvents(), 'title': 'Upcoming Events'},
+    {'Pages': CalanderScreen(), 'title' : 'Events'},
+    {'Pages': profilePage(), 'title' : 'Profile'},
   ];
    int _SeletedPageIndex = 0;
 
@@ -53,12 +56,29 @@ void contactsScreen(BuildContext context) {
 @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       // initialIndex: 0,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(_pages[_SeletedPageIndex]['title']),
+        appBar:AppBar(
+         iconTheme: IconThemeData(color: Colors.orange),
+        backgroundColor: Colors.indigoAccent,
+        title: Text(
+ _pages[_SeletedPageIndex]['title'],
+    style: TextStyle(
+          fontFamily: 'Lexend Deca',
+          color: Colors.white,
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
         ),
+  ),
+        centerTitle: true,
+        elevation: 0.0,
+      ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.orange,
+          
+        //   title: Text(_pages[_SeletedPageIndex]['title']),
+        // ),
         drawer: Drawer(
           child: ListView(
             children: <Widget>[
@@ -158,25 +178,46 @@ void contactsScreen(BuildContext context) {
           ),
         ),
         body: _pages[_SeletedPageIndex]['Pages'],
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: _selectPage,
-          backgroundColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.black,
-          currentIndex: _SeletedPageIndex, 
-          
-          items: [
-             BottomNavigationBarItem(
-              icon: Icon(Icons.celebration),
-              label: 'Competetion',
-            ),
-             BottomNavigationBarItem(
-              icon: Icon(Icons.event),
-              label: 'Events',
-            ),
+        bottomNavigationBar: CurvedNavigationBar(
+          index: 0,
+          height: 60.0,
+          items: <Widget>[
+            Icon(Icons.home, size: 30),
+            Icon(Icons.event, size: 30),
+            Icon(Icons.person, size: 30),
           ],
-           ),
-      ),
+          color: Colors.indigoAccent,
+          buttonBackgroundColor: Colors.orange,
+          backgroundColor: Colors.indigo,
+          animationCurve: Curves.easeInOutSine,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+            setState(() {
+              _SeletedPageIndex = index;
+            });
+          },
+        ),
+      )
     );
   }
 }
+        
+        // bottomNavigationBar: BottomNavigationBar(
+        //   onTap: _selectPage,
+        //   backgroundColor: Theme.of(context).primaryColor,
+        //   unselectedItemColor: Colors.white,
+        //   selectedItemColor: Colors.black,
+        //   currentIndex: _SeletedPageIndex, 
+          
+        //   items: [
+        //      BottomNavigationBarItem(
+        //       icon: Icon(Icons.celebration),
+        //       label: 'Competetion',
+        //     ),
+        //      BottomNavigationBarItem(
+        //       icon: Icon(Icons.event),
+        //       label: 'Events',
+        //     ),
+        //   ],
+        //    ),
+   
