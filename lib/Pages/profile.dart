@@ -1,18 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/Pages/authentication.dart';
+import 'package:flutter_complete_guide/services/firebase_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class profilePage extends StatelessWidget {
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       key: scaffoldKey,
-      backgroundColor: Color(0xFFEEEEEE),
-      
+      backgroundColor: Color(0xFFF6F6F7),
+
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -24,7 +25,8 @@ class profilePage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: 270,
                   decoration: BoxDecoration(
-                    color: Colors.indigoAccent,
+                    color: Color(0xFF120E16),
+
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -35,33 +37,38 @@ class profilePage extends StatelessWidget {
                           Expanded(
                             child: Stack(
                               children: [
-                                Align(
-                                  alignment: AlignmentDirectional(0, 0),
-                                  child: Image.network(
-                                    'https://images.unsplash.com/photo-1574914629385-46448b767aec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bGF0dGV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 150,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: AlignmentDirectional(0, 0),
+                                Center(
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 105, 0, 0),
-                                    child: Container(
-                                      width: 80,
-                                      height: 80,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.network(
-                                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS-bz3w3YbiCPW23zQNWR0sjH7WNZFmCV_6Q&usqp=CAU',
+                                        0, 35, 0, 0),
+                                    child: CircleAvatar(
+                                      radius: 70,
+                                      backgroundImage: NetworkImage(
+                                        '${FirebaseAuth.instance.currentUser!.photoURL}',
                                       ),
                                     ),
                                   ),
-                                ),
+                                )
+                                
+                                // Align(
+                                //   alignment: AlignmentDirectional(0, 0),
+                                //   child: Padding(
+                                //     padding: EdgeInsetsDirectional.fromSTEB(
+                                //         0, 80, 0, 0),
+                                //     child: Container(
+                                //       width: 80,
+                                //       height: 80,
+                                //       clipBehavior: Clip.antiAlias,
+                                //       decoration: BoxDecoration(
+                                //         shape: BoxShape.circle,
+                                //       ),
+                                //       child: Image.network(
+                                //        // 'https://images.unsplash.com/photo-1574914629385-46448b767aec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bGF0dGV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
+                                //         '${FirebaseAuth.instance.currentUser!.photoURL}',
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -74,7 +81,8 @@ class profilePage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                             child: Text(
-                              '[User Name Here]',
+                             // "Name",
+                              "${FirebaseAuth.instance.currentUser!.displayName}",
                               style: TextStyle(
                                 fontFamily: 'Lexend Deca',
                                 color: Colors.white,
@@ -92,10 +100,12 @@ class profilePage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                             child: Text(
-                              'User.name@domainname.com',
+                            //  'Email',
+                             '${FirebaseAuth.instance.currentUser!.email}',
                               style: TextStyle(
                                 fontFamily: 'Lexend Deca',
-                                color: Color(0xFFEE8B60),
+                                color: Color(0xFFF6F6F7),
+
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                               ),
@@ -118,7 +128,7 @@ class profilePage extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Lexend Deca',
                       color: Color(0xFF090F13),
-                      fontSize: 16,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -133,55 +143,7 @@ class profilePage extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Color(0xFFE5E5E5),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                            child: Icon(
-                              Icons.subtitles_rounded,
-                              color: Colors.orange,
-                              size: 24,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                            child: Text(
-                              'Order History',
-                              style: TextStyle(
-                                fontFamily: 'Lexend Deca',
-                                color: Color(0xFF090F13),
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: AlignmentDirectional(0.9, 0),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.orange,
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  
                   ],
                 ),
                 Row(
@@ -191,7 +153,8 @@ class profilePage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color(0xFF120E16),
+
                         shape: BoxShape.rectangle,
                         border: Border.all(
                           color: Color(0xFFE5E5E5),
@@ -206,7 +169,8 @@ class profilePage extends StatelessWidget {
                                 EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                             child: Icon(
                               Icons.settings_rounded,
-                              color: Colors.orange,
+                              color: Color(0xFF613FE5),
+
                               size: 24,
                             ),
                           ),
@@ -217,8 +181,10 @@ class profilePage extends StatelessWidget {
                               'My Settings',
                               style: TextStyle(
                                 fontFamily: 'Lexend Deca',
-                                color: Color(0xFF090F13),
-                                fontSize: 16,
+                                color: Color(0xFFF6F6F7),
+
+
+                                fontSize: 20,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -228,7 +194,8 @@ class profilePage extends StatelessWidget {
                               alignment: AlignmentDirectional(0.9, 0),
                               child: Icon(
                                 Icons.arrow_forward_ios,
-                                color: Colors.orange,
+                                color: Color(0xFF613FE5),
+
                                 size: 18,
                               ),
                             ),
@@ -238,113 +205,131 @@ class profilePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Color(0xFFE5E5E5),
-                          width: 1,
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF120E16),
+                
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color(0xFFE5E5E5),
+                            width: 1,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              child: FaIcon(
+                                FontAwesomeIcons.bell,
+                                color: Color(0xFF613FE5),
+                
+                                size: 24,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              child: Text(
+                                'My Notifications',
+                                style: TextStyle(
+                                  fontFamily: 'Lexend Deca',
+                                  color: Color(0xFFF6F6F7),
+                
+                
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional(0.9, 0),
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Color(0xFF613FE5),
+                
+                
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                            child: FaIcon(
-                              FontAwesomeIcons.bell,
-                              color: Colors.orange,
-                              size: 24,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                            child: Text(
-                              'My Notifications',
-                              style: TextStyle(
-                                fontFamily: 'Lexend Deca',
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: AlignmentDirectional(0.9, 0),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.orange,
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Color(0xFFE5E5E5),
-                          width: 1,
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF120E16),
+                
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color(0xFFF6F6F7),
+                
+                            width: 1,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              child: Icon(
+                                Icons.text_snippet,
+                                color: Color(0xFF613FE5),
+                
+                                size: 24,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              child: Text(
+                                'Terms of Service',
+                                style: TextStyle(
+                                  fontFamily: 'Lexend Deca',
+                                  color: Color(0xFFF6F6F7),
+                
+                
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional(0.9, 0),
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Color(0xFF613FE5),
+                
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                            child: Icon(
-                              Icons.text_snippet,
-                              color: Colors.orange,
-                              size: 24,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                            child: Text(
-                              'Terms of Service',
-                              style: TextStyle(
-                                fontFamily: 'Lexend Deca',
-                                color: Color(0xFF090F13),
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: AlignmentDirectional(0.9, 0),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.orange,
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -356,21 +341,35 @@ class profilePage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
-                    child: ElevatedButton(
-                      onPressed: () {
+                    child: ElevatedButton.icon(
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      onPressed: () async{
+                        await FirebaseServices().signOut();
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AuthenticationPage(),
+                          ),
+                              (r) => false,
+                        );
                         print('Button pressed ...');
                       },
-                      child: Text(
-                        'Log Out',
+                      label: Text(
+                        'Log out',
                         style: TextStyle(
                           fontFamily: 'Lexend Deca',
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 20,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.orange,
+                        primary: Color(0xFF613FE5),
+
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

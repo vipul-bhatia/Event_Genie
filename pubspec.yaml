@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -29,7 +29,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.17.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -38,19 +37,33 @@ dependencies:
   carousel_slider: ^4.1.1
   flutter_zoom_drawer: ^3.0.3
   concentric_transition: ^1.0.1+1
-  lottie: ^1.4.3
+  lottie: ^2.1.0
   curved_navigation_bar: ^1.0.3
   font_awesome_flutter: ^10.2.1
   google_fonts: ^3.0.1
-  flutter_clean_calendar: ^1.1.0
-  calendar_timeline: ^1.0.5
+  firebase_core: ^2.4.0
+  firebase_auth: ^4.2.3
+  google_sign_in: ^5.4.2
+  cloud_firestore: ^4.3.0
+  device_info_plus: ^8.0.0
+  package_info_plus: ^3.0.2
+  url_launcher: ^6.1.7
+  table_calendar: ^3.0.0
+  firebase_database: ^10.0.9
+  firebase_messaging: ^14.2.1
+  flutter_local_notifications: ^13.0.0
+
 
 dev_dependencies:
   shared_preferences: any
   flutter_test:
     sdk: flutter
-  
-    
+  flutter_launcher_icons: ^0.12.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "Assets/Yourparagraphtext.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -64,7 +77,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -72,9 +84,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/waiting.png
      -  Assets/UnderC.jpg
      -  Assets/nointernet.jpg
+     -  Assets/128833-footballer.json
+     -  Assets/112454-form-registration.json
+     -  Assets/129732-walk-cycle-la-communaute.json
+     -  Assets/profile_photo.jpg
+     -  Assets/121529-businessman-balancing-on-time-unicycle.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
