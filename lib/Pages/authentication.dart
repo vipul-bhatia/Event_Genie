@@ -66,24 +66,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    24, 24, 0, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      'Event Genie',
-                                      style: TextStyle(
-                                        fontFamily: 'Outfit',
-                                        color: Color(0xFF0F1113),
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    'Event Genie',
+                                    style: TextStyle(
+                                      fontFamily: 'Outfit',
+                                      color: Color(0xFF0F1113),
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -110,35 +106,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ),
                         ),
                       ),
-                      // Align(
-                      //   alignment: AlignmentDirectional(0, 1),
-                      //   child: Padding(
-                      //     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                      //     child: SmoothPageIndicator(
-                      //       controller: pageViewController ??=
-                      //           PageController(initialPage: 0),
-                      //       count: 3,
-                      //       axisDirection: Axis.horizontal,
-                      //       onDotClicked: (i) {
-                      //         pageViewController!.animateToPage(
-                      //           i,
-                      //           duration: Duration(milliseconds: 500),
-                      //           curve: Curves.ease,
-                      //         );
-                      //       },
-                      // effect: ExpandingDotsEffect(
-                      //   expansionFactor: 2,
-                      //   spacing: 8,
-                      //   radius: 16,
-                      //   dotWidth: 16,
-                      //   dotHeight: 4,
-                      //   dotColor: Color(0xFFE0E3E7),
-                      //   activeDotColor: Color(0xFF0F1113),
-                      //   paintStyle: PaintingStyle.fill,
-                      // ),
-                      //     ),
-                      //   ),
-                      // ),
+                    
                     ],
                   ),
                 ),

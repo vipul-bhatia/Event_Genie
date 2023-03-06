@@ -18,6 +18,8 @@ import 'Pages/collegeClubs.dart';
 import './Pages/feedback.dart';
 import './Pages/authentication.dart';
 import './Pages/view_all_events.dart';
+import './services/auth_option2.dart';
+
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -138,7 +140,7 @@ class MyHomePage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => OnboardingPage(),
+        '/': (context) => AuthOption(),
         '/auth': (context) => AuthenticationPage(),
         '/home': (context) => HomePage(),
         '/competition': (context) => upcomingEvents(),
@@ -148,7 +150,6 @@ class MyHomePage extends StatelessWidget {
         '/ourCollege': (context) => ourCollege(),
         '/aboutUs': (context) => aboutUsPage(),
         '/collegeClubs': (context) => collegeClubs(),
-
         '/feedback': (context) => feedbackPage(),
       },
     );

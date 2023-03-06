@@ -1,6 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class feedbackPage extends StatelessWidget {
+
+class feedbackPage extends StatefulWidget {
+  @override
+  State<feedbackPage> createState() => _feedbackPageState();
+}
+
+class _feedbackPageState extends State<feedbackPage> {
+  CollectionReference feedback =
+      FirebaseFirestore.instance.collection('feedback');
+  final formKey = GlobalKey<FormState>();
+  String FeedbackName = '';
+  String FeedbackEmail = '';
+  String FeedbackReview = '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +48,6 @@ class feedbackPage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              
-
               const SizedBox(
                 height: 40,
               ),
@@ -46,7 +57,7 @@ class feedbackPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       "Name:",
                       style: TextStyle(
@@ -58,23 +69,8 @@ class feedbackPage extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    TextField(
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.indigo,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.indigo,
-                          ),
-                        ),
-                      ),
-                    ),
+                    //name textField
+                    buildFeedbackName(),
                     SizedBox(
                       height: 20,
                     ),
@@ -89,23 +85,8 @@ class feedbackPage extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.indigo,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.indigo,
-                          ),
-                        ),
-                      ),
-                    ),
+                    //email textField
+                    buildFeedbackEmail(),
                     SizedBox(
                       height: 20,
                     ),
@@ -120,24 +101,8 @@ class feedbackPage extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    TextField(
-                      maxLines: 8,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.indigo,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.indigo,
-                          ),
-                        ),
-                      ),
-                    ),
+                    //review textField
+                    buildFeedbackReview(),
                     SizedBox(
                       height: 20,
                     ),
@@ -148,7 +113,6 @@ class feedbackPage extends StatelessWidget {
                 height: 20,
               ),
               SizedBox(
-
                 width: MediaQuery.of(context).size.width * 7 / 8,
                 height: 50.0,
                 child: ElevatedButton(
@@ -164,7 +128,32 @@ class feedbackPage extends StatelessWidget {
                       fontSize: 18,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Feedback Submitted'),
+                      ),
+                    );
+                    // if (formKey.currentState!.validate()) {
+                    //   formKey.currentState!.save();
+                    //   feedback.add({
+                    //     'name': FeedbackName,
+                    //     'email': FeedbackEmail,
+                    //     'review': FeedbackReview,
+                    //   }).then((value) {
+                    //     // show a success message to the user
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   SnackBar(
+                    //     content: Text('Feedback Submitted'),
+                    //   ));
+                    //     // clear the form
+                    //     formKey.currentState!.reset();
+
+                    //   }).catchError((error) {
+                    //     // show an error message to the user
+                    //   });
+                    // }
+                  },
                 ),
               ),
             ],
@@ -173,4 +162,65 @@ class feedbackPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildFeedbackName() => TextFormField(
+        keyboardType: TextInputType.name,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: Colors.indigo,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: Colors.indigo,
+            ),
+          ),
+        ),
+        onSaved: (value) => setState(() => FeedbackName = value!),
+      );
+
+  Widget buildFeedbackEmail() => TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: Colors.indigo,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: Colors.indigo,
+            ),
+          ),
+        ),
+        onSaved: (value) => setState(() => FeedbackEmail = value!),
+      );
+
+  Widget buildFeedbackReview() => TextFormField(
+        maxLines: 14,
+        style: TextStyle(
+          fontSize: 18,
+        ),
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: Colors.indigo,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: Colors.indigo,
+            ),
+          ),
+        ),
+        onSaved: (value) => setState(() => FeedbackReview = value!),
+      );
 }
