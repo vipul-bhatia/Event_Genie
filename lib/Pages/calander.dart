@@ -1,10 +1,7 @@
-import 'dart:ui';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/Pages/eventDetails.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalanderScreen extends StatefulWidget {
@@ -225,7 +222,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                       _selectedEvents[index]['eventName'],
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
-                                        fontSize: 20,
+                                        fontSize: MediaQuery.of(context).size.width*0.05,
                                         color: Color(0xFFF6F6F7),
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -236,7 +233,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                       child: Text(
                                         _selectedEvents[index]['eventTime'],
                                         style: TextStyle(
-                                           fontSize: 20,
+                                           fontSize: MediaQuery.of(context).size.width*0.04,
                                           fontFamily: 'Poppins',
                                           color:Color(0xFFF6F6F7),
                                           fontWeight: FontWeight.w600,
@@ -247,7 +244,7 @@ class _CalanderScreenState extends State<CalanderScreen> {
                                       _selectedEvents[index]['eventPlace'],
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
-                                        fontSize: 20,
+                                        fontSize: MediaQuery.of(context).size.width*0.04,
                                         color: Color(0xFFF6F6F7),
                                         fontWeight: FontWeight.w600,
                                       ),

@@ -161,7 +161,7 @@ class _viewAllEventsState extends State<viewAllEvents> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 0, 4),
                                       child: Text(
-                                        '10:00am',
+                                        _eventTime[index],
                                         style: TextStyle(
                                           fontFamily: 'Lexend Deca',
                                           color: Colors.white,
@@ -171,7 +171,7 @@ class _viewAllEventsState extends State<viewAllEvents> {
                                       ),
                                     ),
                                     Text(
-                                      'Thursday June 22',
+                                      _eventPlace[index],
                                       textAlign: TextAlign.end,
                                       style: TextStyle(
                                         fontFamily: 'Lexend Deca',

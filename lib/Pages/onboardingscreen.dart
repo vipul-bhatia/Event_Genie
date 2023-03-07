@@ -1,9 +1,9 @@
 import 'package:lottie/lottie.dart';
-
-import '../models/onboarding.dart';
 import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
 
+//models
+import '../models/onboarding.dart';
 class OnboardingPage extends StatelessWidget {
   OnboardingPage({Key? key}) : super(key: key);
 

@@ -1,6 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'upcomingEvents.dart';
 import 'calander.dart';
@@ -77,11 +76,6 @@ class _HomePageState extends State<HomePage> {
             centerTitle: true,
             elevation: 0.0,
           ),
-          // appBar: AppBar(
-          //   backgroundColor: Colors.orange,
-
-          //   title: Text(_pages[_SeletedPageIndex]['title']),
-          // ),
           drawer: Drawer(
             child: ListView(
               children: <Widget>[
@@ -91,12 +85,10 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.all(20),
                   alignment: Alignment.centerLeft,
                   color: Color(0xFF120E16),
-
                   child: Text(
                     'Scheduling Events Has Never Been This Easy!',
                     style: TextStyle(
                       color: Color(0xFFF6F6F7),
-
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -108,12 +100,11 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 ListTile(
-                  leading: Icon(
-                    Icons.home,
-                    color: Color(0xFF613FE5),
-                    size: 32
+                  leading: Icon(Icons.home, color: Color(0xFF613FE5), size: 32),
+                  title: Text(
+                    'About Us',
+                    style: TextStyle(fontSize: 17),
                   ),
-                  title: Text('About Us',style: TextStyle(fontSize: 17),),
                   onTap: () {
                     Navigator.of(context).pushNamed('/aboutUs');
                   },
@@ -123,8 +114,15 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 ListTile(
-                  leading: Icon(Icons.person,   color: Color(0xFF613FE5),size: 32,),
-                  title: Text('Our College',style: TextStyle(fontSize: 17),),
+                  leading: Icon(
+                    Icons.person,
+                    color: Color(0xFF613FE5),
+                    size: 32,
+                  ),
+                  title: Text(
+                    'Our College',
+                    style: TextStyle(fontSize: 17),
+                  ),
                   onTap: () {
                     Navigator.of(context).pushNamed('/ourCollege');
                   },
@@ -134,8 +132,12 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 ListTile(
-                  leading: Icon(Icons.person_outline,   color: Color(0xFF613FE5),size: 32),
-                  title: Text('Alumini of NMIMS',style: TextStyle(fontSize: 17),),
+                  leading: Icon(Icons.person_outline,
+                      color: Color(0xFF613FE5), size: 32),
+                  title: Text(
+                    'Alumini of NMIMS',
+                    style: TextStyle(fontSize: 17),
+                  ),
                   onTap: () {
                     Navigator.of(context).pushNamed('/alumini');
                   },
@@ -145,8 +147,12 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 ListTile(
-                  leading: Icon(Icons.newspaper,   color: Color(0xFF613FE5),size: 32),
-                  title: Text('College Clubs',style: TextStyle(fontSize: 17),),
+                  leading:
+                      Icon(Icons.newspaper, color: Color(0xFF613FE5), size: 32),
+                  title: Text(
+                    'College Clubs',
+                    style: TextStyle(fontSize: 17),
+                  ),
                   onTap: () {
                     Navigator.of(context).pushNamed('/collegeClubs');
                   },
@@ -156,8 +162,12 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 ListTile(
-                  leading: Icon(Icons.feedback_outlined,   color: Color(0xFF613FE5),size: 32),
-                  title: Text('Feedback/Suggestions',style: TextStyle(fontSize: 17),),
+                  leading: Icon(Icons.feedback_outlined,
+                      color: Color(0xFF613FE5), size: 32),
+                  title: Text(
+                    'Feedback/Suggestions',
+                    style: TextStyle(fontSize: 17),
+                  ),
                   onTap: () {
                     Navigator.of(context).pushNamed('/feedback');
                   },

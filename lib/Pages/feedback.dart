@@ -134,25 +134,6 @@ class _feedbackPageState extends State<feedbackPage> {
                         content: Text('Feedback Submitted'),
                       ),
                     );
-                    // if (formKey.currentState!.validate()) {
-                    //   formKey.currentState!.save();
-                    //   feedback.add({
-                    //     'name': FeedbackName,
-                    //     'email': FeedbackEmail,
-                    //     'review': FeedbackReview,
-                    //   }).then((value) {
-                    //     // show a success message to the user
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   SnackBar(
-                    //     content: Text('Feedback Submitted'),
-                    //   ));
-                    //     // clear the form
-                    //     formKey.currentState!.reset();
-
-                    //   }).catchError((error) {
-                    //     // show an error message to the user
-                    //   });
-                    // }
                   },
                 ),
               ),

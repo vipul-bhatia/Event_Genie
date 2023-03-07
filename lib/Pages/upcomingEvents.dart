@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/Pages/eventDetails.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
-import '../services/user.dart';
 
 class upcomingEvents extends StatefulWidget {
   @override
@@ -15,6 +15,7 @@ class upcomingEvents extends StatefulWidget {
 }
 
 class _upcomingEventsState extends State<upcomingEvents> {
+  // For added events
   List<String> _imageUrls = [];
   List<String> _eventNames = [];
   List<String> _eventTime = [];
@@ -22,13 +23,42 @@ class _upcomingEventsState extends State<upcomingEvents> {
   List<String> _eventDescription = [];
   List<String> _eventRegistrationLink = [];
 
+  //For Special Events
+  List<String> _lottieLinks = [];
+  List<String> _specialEventNames = [];
+  List<String> _specialEventDates = [];
+
   @override
   void initState() {
     super.initState();
-    _getImageUrls();
+    _checkInternetConnection() ;
   }
 
-  void _getImageUrls() async {
+  bool _isConnected = true;
+  Future<void> _checkInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        setState(() {
+           _isConnected = true;
+          _getEvents();
+          _getSpecialEvents();
+        });
+      }
+    } on SocketException catch (_) {
+      setState(() {
+              _isConnected = false;
+
+      });
+    }
+  }
+  
+
+
+
+
+  // For added events
+  void _getEvents() async {
     QuerySnapshot snapshot =
         await FirebaseFirestore.instance.collection('users').get();
     List<String> urls = [];
@@ -60,11 +90,6 @@ class _upcomingEventsState extends State<upcomingEvents> {
           eventRegistrationLinks.add(eventRegistrationLink);
         }
       }
-      else{
-       Center(
-            child:LottieBuilder.network('https://assets7.lottiefiles.com/packages/lf20_yodwwn2k.json')
-          );
-      }
     });
     setState(() {
       _imageUrls = urls;
@@ -76,20 +101,46 @@ class _upcomingEventsState extends State<upcomingEvents> {
     });
   }
 
+  // For Special Events
+  void _getSpecialEvents() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('specialEvents').get();
+    List<String> urls = [];
+    List<String> eventNames = [];
+    List<String> eventDates = [];
+    snapshot.docs.forEach((doc) {
+      var data = doc.data();
+      if (data != null && data is Map<String, dynamic>) {
+        var url = data['lottieLink'];
+        var eventName = data['eventName'];
+        var eventDate = data['eventDate'];
+        if (url != null &&
+            eventName != null &&
+            eventDates != null ) {
+          urls.add(url);
+          eventNames.add(eventName);
+          eventDates.add(eventDate);
+        }
+      }
+    });
+    setState(() {
+      _lottieLinks = urls;
+      _specialEventNames  = eventNames;
+      _specialEventDates= eventDates;
+    });
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF6F6F7),
-
-      // Color(0xFF3F7396),
-     // Color(0xFF317ac7),
-      body: SingleChildScrollView(
+      body: _isConnected ?   SingleChildScrollView(
         child: Column(
           children: [
             CarouselSlider(
               items: _imageUrls.map((url) {
                 return Container(
-                  
                   margin: EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
@@ -99,9 +150,6 @@ class _upcomingEventsState extends State<upcomingEvents> {
                     ),
                   ),
                 );
-                // return Container(
-                //   child: Image.network(url),
-                // );
               }).toList(),
               options: CarouselOptions(
                 height: 200.0,
@@ -116,269 +164,67 @@ class _upcomingEventsState extends State<upcomingEvents> {
                 scrollDirection: Axis.horizontal,
               ),
             ),
-            SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  alignment: Alignment.topCenter,
-                  child: Row(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: (){
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Coming Soon'),
-                            ),
-
-                          );
-                        },
-                        child: Container(
-                          width: 150,
-                          margin: EdgeInsets.only(right: 10),
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF120E16),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LottieBuilder.network(
-                                  'https://assets10.lottiefiles.com/packages/lf20_keoed4f6.json',
-                                  height: 90,
-                                  width: 90),
-                              Text(
-                                'Cultural',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'Octobar 21',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
-                          ),
+            // special Events
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _lottieLinks.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Coming Soon'),
                         ),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF120E16),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      GestureDetector(
-                        onTap: (){
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Coming Soon'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            
+                            height: 100,
+                            width: 100,
+                            child: Lottie.network(
+                              _lottieLinks[index],
+                              fit: BoxFit.fill,
                             ),
-
-                          );
-                        },
-                        child: Container(
-                          width: 150,
-                          margin: EdgeInsets.only(right: 10),
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF120E16),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LottieBuilder.network(
-                                  'https://assets2.lottiefiles.com/packages/lf20_VAcXFj87ku.json',
-                                  height: 90,
-                                  width: 90),
-                              Text(
-                                'Marketers Meet',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'November 22',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
                           ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Coming Soon'),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              _specialEventNames[index],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-
-                          );
-                        },
-                        child: Container(
-                          width: 150,
-                          margin: EdgeInsets.only(right: 10),
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF120E16),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LottieBuilder.network(
-                                  'https://assets2.lottiefiles.com/packages/lf20_BgywoUBeiL.json',
-                                  height: 90,
-                                  width: 90),
-                              Text(
-                                'Community Learning',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'January 22',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
                           ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Coming Soon'),
+                          Text(
+                            _specialEventDates[index],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
                             ),
-
-                          );
-                        },
-                        child: Container(
-                          width: 150,
-                          margin: EdgeInsets.only(right: 10),
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF120E16),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LottieBuilder.network(
-                                  'https://assets10.lottiefiles.com/packages/lf20_yMpiqXia1k.json',
-                                  height: 90,
-                                  width: 90),
-                              Text(
-                                'Stocks Analysis',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'December 22',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
                           ),
-                        ),
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: (){
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Coming Soon'),
-                            ),
-
-                          );
-                        },
-                        child: Container(
-                          width: 150,
-                          margin: EdgeInsets.only(right: 20),
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF120E16),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LottieBuilder.network(
-                                  'https://assets10.lottiefiles.com/packages/lf20_keoed4f6.json',
-                                  height: 90,
-                                  width: 90),
-                              Text(
-                                'Cultural',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'Octobar 21',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
             ),
             Padding(padding: EdgeInsets.all(10)),
@@ -450,7 +296,8 @@ class _upcomingEventsState extends State<upcomingEvents> {
                                 color: Color(0xFFF6F6F7),
 
 
-                                fontSize: 15,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    0.045,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -461,7 +308,8 @@ class _upcomingEventsState extends State<upcomingEvents> {
                                 color: Color(0xFFF6F6F7),
 
 
-                                fontSize: 12,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    0.035,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -472,7 +320,8 @@ class _upcomingEventsState extends State<upcomingEvents> {
                                 color:Color(0xFFF6F6F7),
 
 
-                                fontSize: 15,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    0.035,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -486,6 +335,9 @@ class _upcomingEventsState extends State<upcomingEvents> {
             )
           ],
         ),
+      ): 
+      Center(
+       child: LottieBuilder.asset('Assets/58200-no-internet.json')
       ),
     );
   }
