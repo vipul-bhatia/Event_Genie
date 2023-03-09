@@ -1,19 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
 class feedbackPage extends StatefulWidget {
   @override
   State<feedbackPage> createState() => _feedbackPageState();
 }
 
 class _feedbackPageState extends State<feedbackPage> {
-  CollectionReference feedback =
-      FirebaseFirestore.instance.collection('feedback');
-  final formKey = GlobalKey<FormState>();
-  String FeedbackName = '';
-  String FeedbackEmail = '';
-  String FeedbackReview = '';
+  // CollectionReference feedback =
+  //     FirebaseFirestore.instance.collection('feedback');
+  // final formKey = GlobalKey<FormState>();
+  // String FeedbackName = '';
+  // String FeedbackEmail = '';
+  // String FeedbackReview = '';
+
+  final controllerName = TextEditingController();
+  final controllerEmail = TextEditingController();
+  final controllerReview = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -128,12 +131,19 @@ class _feedbackPageState extends State<feedbackPage> {
                       fontSize: 18,
                     ),
                   ),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Feedback Submitted'),
-                      ),
-                    );
+                  onPressed: () async {
+            // write the code to add the feedback to the database
+            final name = controllerName.text;
+            final email = controllerEmail.text;
+            final review = controllerReview.text;
+            createFeedback(name: name, email: email, review: review);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Feedback Submitted'),
+    ),
+  );
+                  
+                  
                   },
                 ),
               ),
@@ -160,7 +170,14 @@ class _feedbackPageState extends State<feedbackPage> {
             ),
           ),
         ),
-        onSaved: (value) => setState(() => FeedbackName = value!),
+        controller: controllerName,
+        validator: (value) {
+          if (value!.length < 4) {
+            return 'Enter at least 4 characters';
+          } else {
+            return null;
+          }
+        },
       );
 
   Widget buildFeedbackEmail() => TextFormField(
@@ -179,7 +196,15 @@ class _feedbackPageState extends State<feedbackPage> {
             ),
           ),
         ),
-        onSaved: (value) => setState(() => FeedbackEmail = value!),
+        controller: controllerEmail,
+        // ckeck if the user inputs altleast 10 chalecters
+        validator: (value) {
+          if (value!.length < 10) {
+            return 'Enter at least 10 characters';
+          } else {
+            return null;
+          }
+        },
       );
 
   Widget buildFeedbackReview() => TextFormField(
@@ -202,6 +227,24 @@ class _feedbackPageState extends State<feedbackPage> {
             ),
           ),
         ),
-        onSaved: (value) => setState(() => FeedbackReview = value!),
+        controller: controllerReview,
+        validator: (value) {
+          if (value!.length < 10) {
+            return 'Enter at least 10 characters';
+          } else {
+            return null;
+          }
+        },
       );
+
+      Future createFeedback({required String name , required String email, required String review}) async {
+        final docUser= FirebaseFirestore.instance.collection('feedback').doc();
+
+        final json ={
+          'name': name,
+          'email': email,
+          'review': review,
+        };
+        await docUser.set(json);
+      }
 }

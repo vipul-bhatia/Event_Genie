@@ -10,6 +10,7 @@ class AuthenticationPage extends StatefulWidget {
 }
 
 class _AuthenticationPageState extends State<AuthenticationPage> {
+  bool _isLoading = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -33,7 +34,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
         elevation: 0,
       ),
       backgroundColor: Color(0xFFF6F6F7),
-
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -103,7 +103,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ),
                         ),
                       ),
-                    
                     ],
                   ),
                 ),
@@ -116,7 +115,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF613FE5),
-
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -128,25 +126,38 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-               
-                    onPressed: () async{
-                  
-                     await FirebaseServices().signInWithGoogle();
-              
-                      Navigator.of(context).pushReplacementNamed("/home");
-                
-                    },
-                    label: Text('Login with Google',style: TextStyle(color: Color(0xFFF6F6F7),
-),),
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            await FirebaseServices().signInWithGoogle();
+
+                            Navigator.of(context).pushReplacementNamed("/home");
+                          },
+                    label: _isLoading
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : Text(
+                            'Login with Google',
+                            style: TextStyle(
+                              color: Color(0xFFF6F6F7),
+                            ),
+                          ),
                     icon: Icon(
                       Icons.login,
                       color: Color(0xFFF6F6F7),
-
                     ),
                   ),
                 ),
               ),
-             
             ],
           ),
         ),

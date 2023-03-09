@@ -15,117 +15,131 @@ class collegeClubs extends StatefulWidget {
 class _collegeClubsState extends State<collegeClubs> {
   // initState() fetches the data from the clubs.json store in array
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fetchClubs();
-  }
-
-  // fetchClubs() fetches the data from the clubs.json store in array
-  fetchClubs() async {
-    final response = await rootBundle.loadString('lib/clubs.json');
-    final data = json.decode(response);
-    setState(() {
-      for (var i in data.keys) {
-        clubs.add(data[i]);
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     return Scaffold(
-
-      
-    
-      body: CustomScrollView(
-        slivers: [
-          SliverPersistentHeader(
-            delegate: SliverSearchAppBar(),
-            pinned: true,
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                // create a list view to display the clubs with image of left and name and description on the right
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: clubs.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(clubs[index]['Image']),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                clubs[index]['Name'],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              // description of the club is very long handle overflow
-                              Container(
-                                width: 300,
-                                height: 60,
-                                child: Text(
-                                  clubs[index]['Description'],
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
+       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+      ),
+      body: Center(
+        child: Image.asset('Assets/UnderC.jpg')
       ),
     );
   }
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   fetchClubs();
+  // }
+
+  // // fetchClubs() fetches the data from the clubs.json store in array
+  // fetchClubs() async {
+  //   final response = await rootBundle.loadString('lib/clubs.json');
+  //   final data = json.decode(response);
+  //   setState(() {
+  //     for (var i in data.keys) {
+  //       clubs.add(data[i]);
+  //     }
+  //   });
+  // }
+
+  // Widget build(BuildContext context) {
+    
+    // return Scaffold(
+
+      
+    
+    //   body: CustomScrollView(
+    //     slivers: [
+    //       SliverPersistentHeader(
+    //         delegate: SliverSearchAppBar(),
+    //         pinned: true,
+    //       ),
+    //       SliverList(
+    //         delegate: SliverChildListDelegate(
+    //           [
+    //             // create a list view to display the clubs with image of left and name and description on the right
+    //             ListView.builder(
+    //               physics: NeverScrollableScrollPhysics(),
+    //               shrinkWrap: true,
+    //               itemCount: clubs.length,
+    //               itemBuilder: (context, index) {
+    //                 return Container(
+    //                   margin: EdgeInsets.all(10),
+    //                   decoration: BoxDecoration(
+    //                     color: Colors.white,
+    //                     borderRadius: BorderRadius.circular(20),
+    //                     boxShadow: [
+    //                       BoxShadow(
+    //                         color: Colors.grey.withOpacity(0.5),
+    //                         spreadRadius: 5,
+    //                         blurRadius: 7,
+    //                         offset: Offset(0, 3),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                   child: Row(
+    //                     children: [
+    //                       Container(
+    //                         height: 100,
+    //                         width: 100,
+    //                         decoration: BoxDecoration(
+    //                           image: DecorationImage(
+    //                             image: NetworkImage(clubs[index]['Image']),
+    //                             fit: BoxFit.cover,
+    //                           ),
+    //                           borderRadius: BorderRadius.only(
+    //                             topLeft: Radius.circular(20),
+    //                             bottomLeft: Radius.circular(20),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                       SizedBox(
+    //                         width: 10,
+    //                       ),
+    //                       Column(
+    //                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                         children: [
+    //                           Text(
+    //                             clubs[index]['Name'],
+    //                             style: TextStyle(
+    //                               fontSize: 20,
+    //                               fontWeight: FontWeight.bold,
+    //                             ),
+    //                           ),
+    //                           SizedBox(
+    //                             height: 10,
+    //                           ),
+    //                           // description of the club is very long handle overflow
+    //                           Container(
+    //                             width: 300,
+    //                             height: 60,
+    //                             child: Text(
+    //                               clubs[index]['Description'],
+    //                               style: TextStyle(
+    //                                 fontSize: 15,
+    //                               ),
+    //                               overflow: TextOverflow.ellipsis,
+    //                               maxLines: 3,
+    //                             ),
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 );
+    //               },
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+ // }
 }
 
 class BackgroundWaveClipper extends CustomClipper<Path> {
